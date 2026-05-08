@@ -107,10 +107,8 @@ clean:
 	@rm -rf $(BIN_DIR) $(RELEASE_DIR) coverage.out coverage.html
 	@echo "Cleaned build artifacts."
 
-# Shortcut to build, run tests, and verify formatting in one go.
-# Handy before pushing a branch to avoid CI surprises.
-.PHONY: check
-check: verify test
-	@echo "All checks passed."
+# dev: build, run tests, and verify formatting in one shot — handy for a quick pre-commit check
+.PHONY: dev
+dev: build test verify
 
-.PHONY: help
+# Shortcut to
