@@ -107,20 +107,10 @@ clean:
 	@rm -rf $(BIN_DIR) $(RELEASE_DIR) coverage.out coverage.html
 	@echo "Cleaned build artifacts."
 
+# Shortcut to build, run tests, and verify formatting in one go.
+# Handy before pushing a branch to avoid CI surprises.
+.PHONY: check
+check: verify test
+	@echo "All checks passed."
+
 .PHONY: help
-help:
-	@echo "Available targets:"
-	@echo "  all            - Build all binaries (default)"
-	@echo "  build          - Build all binaries"
-	@echo "  images         - Build Docker images"
-	@echo "  push           - Push Docker images to registry"
-	@echo "  test           - Run tests with race detector"
-	@echo "  test-verbose   - Run tests with race detector (verbose output)"
-	@echo "  test-coverage  - Run tests and generate coverage report"
-	@echo "  lint           - Run golangci-lint"
-	@echo "  fmt            - Format Go source files"
-	@echo "  fmt-check      - Check Go source file formatting"
-	@echo "  vet            - Run go vet"
-	@echo "  verify         - Run fmt-check, vet, and lint"
-	@echo "  generate       - Run go generate"
-	@echo "  clean          - Remove build artifacts"
