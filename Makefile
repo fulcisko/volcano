@@ -15,7 +15,7 @@
 BIN_DIR=_output/bin
 RELEASE_DIR=_output/release
 GO=go
-GOFLAGS?=
+GOFLAGS?
 GOFMT=gofmt
 VERSION?=$(shell git describe --tags --always --dirty 2>/dev/null || echo "v0.0.0-dev")
 GIT_COMMIT?=$(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
@@ -58,9 +58,10 @@ push:
 		docker push $(REGISTRY)/$$target:$(IMAGE_TAG); \
 	done
 
+# Run tests with race detector enabled by default to catch data races during development
 .PHONY: test
 test:
-	$(GO) test $(GOFLAGS) ./... -v -count=1
+	$(GO) test $(GOFLAGS) -race ./... -v -count=1
 
 .PHONY: test-coverage
 test-coverage:
@@ -107,6 +108,12 @@ help:
 	@echo "  build          - Build all binaries"
 	@echo "  images         - Build Docker images"
 	@echo "  push           - Push Docker images to registry"
-	@echo "  test           - Run unit tests"
+	@echo "  test           - Run unit tests (with race detector)"
 	@echo "  test-coverage  - Run tests with coverage report"
-	@echo "  lint           - Run lin"
+	@echo "  lint           - Run linter"
+	@echo "  fmt            - Format Go source files"
+	@echo "  fmt-check      - Check Go source file formatting"
+	@echo "  vet            - Run go vet"
+	@echo "  verify         - Run fmt-check, vet, and lint"
+	@echo "  generate       - Run go generate"
+	@echo "  clean          - Remove build artifacts"
