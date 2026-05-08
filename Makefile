@@ -74,6 +74,16 @@ test-coverage:
 	$(GO) test $(GOFLAGS) ./... -coverprofile=coverage.out -covermode=atomic
 	$(GO) tool cover -html=coverage.out -o coverage.html
 
+# Personal note: set a minimum coverage threshold to keep myself honest
+.PHONY: test-coverage-check
+test-coverage-check: test-coverage
+	@total=$$($(GO) tool cover -func=coverage.out | grep total | awk '{print $$3}' | tr -d '%'); \
+	echo "Total coverage: $${total}%"; \
+	if [ $$(echo "$$total < 60" | bc -l) -eq 1 ]; then \
+		echo "Coverage $${total}% is below minimum threshold of 60%"; \
+		exit 1; \
+	fi
+
 .PHONY: lint
 lint:
 	golangci-lint run ./...
@@ -107,8 +117,4 @@ clean:
 	@rm -rf $(BIN_DIR) $(RELEASE_DIR) coverage.out coverage.html
 	@echo "Cleaned build artifacts."
 
-# dev: build, run tests, and verify formatting in one shot — handy for a quick pre-commit check
-.PHONY: dev
-dev: build test verify
-
-# Shortcut to
+# dev: build,
