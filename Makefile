@@ -59,8 +59,14 @@ push:
 	done
 
 # Run tests with race detector enabled by default to catch data races during development
+# Note: removed -v and -count=1 here; use `make test-verbose` for full output
 .PHONY: test
 test:
+	$(GO) test $(GOFLAGS) -race ./...
+
+# Verbose test run, useful when debugging a specific failure
+.PHONY: test-verbose
+test-verbose:
 	$(GO) test $(GOFLAGS) -race ./... -v -count=1
 
 .PHONY: test-coverage
@@ -108,9 +114,10 @@ help:
 	@echo "  build          - Build all binaries"
 	@echo "  images         - Build Docker images"
 	@echo "  push           - Push Docker images to registry"
-	@echo "  test           - Run unit tests (with race detector)"
-	@echo "  test-coverage  - Run tests with coverage report"
-	@echo "  lint           - Run linter"
+	@echo "  test           - Run tests with race detector"
+	@echo "  test-verbose   - Run tests with race detector (verbose output)"
+	@echo "  test-coverage  - Run tests and generate coverage report"
+	@echo "  lint           - Run golangci-lint"
 	@echo "  fmt            - Format Go source files"
 	@echo "  fmt-check      - Check Go source file formatting"
 	@echo "  vet            - Run go vet"
