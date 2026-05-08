@@ -20,7 +20,8 @@ GOFMT=gofmt
 VERSION?=$(shell git describe --tags --always --dirty 2>/dev/null || echo "v0.0.0-dev")
 GIT_COMMIT?=$(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 BUILD_DATE?=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
-REGISTRY?=ghcr.io/volcano-sh
+# Personal fork: pushing to my own Docker Hub namespace instead of ghcr.io
+REGISTRY?=docker.io/myusername
 IMAGE_TAG?=$(VERSION)
 
 LD_FLAGS="-X 'volcano.sh/volcano/pkg/version.Version=$(VERSION)' \
@@ -108,10 +109,4 @@ help:
 	@echo "  push           - Push Docker images to registry"
 	@echo "  test           - Run unit tests"
 	@echo "  test-coverage  - Run tests with coverage report"
-	@echo "  lint           - Run linter"
-	@echo "  fmt            - Format Go source files"
-	@echo "  fmt-check      - Check Go source file formatting"
-	@echo "  vet            - Run go vet"
-	@echo "  verify         - Run all verification checks"
-	@echo "  generate       - Run code generation"
-	@echo "  clean          - Remove build artifacts"
+	@echo "  lint           - Run lin"
