@@ -60,6 +60,7 @@ make verify
 make test
 
 # Run e2e tests (requires a running cluster)
+# Note: set KUBECONFIG env var to point to your test cluster before running
 make e2e
 ```
 
